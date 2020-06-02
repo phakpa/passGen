@@ -2,46 +2,144 @@
 const generateBtn = document.querySelector("#generate");
 
 // Write password to the #password input
-function writePassword() {
-  const confirmLength = prompt("Choose a character length of password betweek 8-128: ");
-  const confirmLowercase = confirm("Lowercase?");
-  const confirmUppercase = confirm("Uppercase?");
-  const confirmNumber = confirm("Number?");
-  const confirmSpecialChar = confirm("SpecialCharacter?");
 
-  
-  console.log(confirmLength, confirmLowercase, confirmUppercase, confirmNumber, confirmSpecialChar);
+function writePassword() {
+  let loop = 0;
+  let confirmLength = 0;
+  while (loop != 1) {
+    if (confirmLength < 8) {
+      confirmLength = prompt("Choose a character length of password between 8-128: ");
+      length = parseInt(confirmLength);
+      if (confirmLength < 8) {
+        alert("Please choose a password character length between 8-128!!");
+      }
+      loop = 0;
+
+    }
+    else if (confirmLength > 128) {
+      confirmLength = prompt("Choose a character length of password betweek 8-128: ");
+      length = parseInt(confirmLength);
+      if (confirmLength > 128) {
+        alert("Please choose a password character length between 8-128!!");
+      }
+      loop = 0;
+
+    }
+    else {
+      confirmLength = parseInt(confirmLength);
+      loop = 1;
+    }
+  }
+
+  let confirmLoop = false;
+  let confirmLowercase = false;
+  let confirmUppercase = false;
+  let confirmNumber = false;
+  let confirmSpecialChar = false;
+
+  while (confirmLoop != true) {
+    confirmLowercase = confirm("Lowercase character in password?");
+    confirmUppercase = confirm("Uppercase character in password?");
+    confirmNumber = confirm("Number character in password?");
+    confirmSpecialChar = confirm("Special character in password?");
+
+    if (confirmLowercase === true || confirmUppercase === true || confirmNumber === true || confirmSpecialChar === true) {
+      confirmLoop = true;
+    }
+    else {
+      alert("Please select at least one character type to include in your password!!");
+      confirmLoop = false;
+    }
+
+  }
 
   function generatePassword() {
     let tempPass = "";
 
-    for (let i =0; i < confirmLength; i++) {
-      tempPass += getRandomLower();
+    console.log(confirmLength);
+    console.log(typeof confirmLength);
+
+    for (let i = 0; tempPass.length < length; i++) {
+      if (confirmLowercase) {
+        if (tempPass.length < confirmLength) {
+          tempPass += getRandomLower();
+        }
+        else {
+          tempPass = tempPass;
+        }
+      }
+      if (confirmUppercase) {
+        if (tempPass.length < confirmLength) {
+          tempPass += getRandomUpper();
+        }
+        else {
+          tempPass = tempPass;
+        }
+      }
+      if (confirmNumber) {
+        if (tempPass.length < confirmLength) {
+          tempPass += getRandomNumber();
+        }
+        else {
+          tempPass = tempPass;
+        }
+      }
+      if (confirmSpecialChar) {
+        if (tempPass.length < confirmLength) {
+          tempPass += getRandomSymbol();
+        }
+        else {
+          tempPass = tempPass;
+        }
+      }
     }
     return tempPass;
 
-}
+  }
 
-
-  const password = generatePassword();
+  let password = generatePassword();
   const passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
-
+  //calling shuffle password function
+  console.log(password);
+  password = shufflePassword(password);
   console.log(password);
 
+  passwordText.value = password;
 }
 
+//shuffle password function
+function shufflePassword(str) {
+  let passArr = str.split("");
+  let n = passArr.length;
+
+  for (let i = 0; i < n - 1; i++) {
+    let j = getRandomInt(n);
+
+    let temp = passArr[i];
+    passArr[i] = passArr[j];
+    passArr[j] = temp;
+  }
+  str = passArr.join("");
+  return str;
+}
+
+function getRandomInt(n) {
+  return Math.floor(Math.random() * n);
+}
+
+//Lower, Upper, Number, Special Characters generater
+
 function getRandomLower() {
-  return String.fromCharCode(Math.floor(Math.random()*26) + 97);
+  return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 }
 
 function getRandomUpper() {
-  return String.fromCharCode(Math.floor(Math.random()*26) + 65);
+  return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
 }
 
 function getRandomNumber() {
-  return String.fromCharCode(Math.floor(Math.random()*10) + 48);
+  return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
 }
 
 function getRandomSymbol() {
