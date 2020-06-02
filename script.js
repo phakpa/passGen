@@ -4,23 +4,28 @@ const generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 
 function writePassword() {
+  alert("Password character length must be between 8 to 128 characters long!!");
+  alert("Password must also include at least 1 character type.")
+
+
+  //password length code
   let loop = 0;
   let confirmLength = 0;
   while (loop != 1) {
     if (confirmLength < 8) {
-      confirmLength = prompt("Choose a character length of password between 8-128: ");
+      confirmLength = prompt("Please enter your password length: ");
       length = parseInt(confirmLength);
       if (confirmLength < 8) {
-        alert("Please choose a password character length between 8-128!!");
+        alert("Choose a password character length between 8 to 128 characters long!!");
       }
       loop = 0;
 
     }
     else if (confirmLength > 128) {
-      confirmLength = prompt("Choose a character length of password betweek 8-128: ");
+      confirmLength = prompt("Please enter your password length: ");
       length = parseInt(confirmLength);
       if (confirmLength > 128) {
-        alert("Please choose a password character length between 8-128!!");
+        alert("Choose a password character length between 8 to 128 characters long!!");
       }
       loop = 0;
 
